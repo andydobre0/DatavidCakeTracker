@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Member>
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<IdentityUser> UserManager
+
+<h1>Member List</h1>
+
+@if(User.IsInRole("admin"))
+{
+    <a asp-action="Create" class="btn btn-primary">Add Member</a>
+}
+
+<table class="table">
+    <thead> 
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Birth Date</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var member in Model)
+        {
+            <tr>
+                <td>@member.FirstName</td>
+                <td>@member.LastName</td>
+                <td>@member.BirthDate</td>
+                <td>@member.Country</td>
+                <td>@member.City</td>
+                <td>@member.Age</td>
+                @if (User.IsInRole("admin"))
+                {
+                    <td><a asp-action="Delete" asp-route-id="@member.Id" class="btn btn-danger">Delete</a></td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
