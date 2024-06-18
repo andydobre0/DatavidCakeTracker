@@ -13,7 +13,15 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <input asp-for="Input.FirstName" class="form-control" autocomplete="First Name" aria-required="true" placeholder="First Name" />
+                <label asp-for="Input.FirstName">First Name</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.LastName" class="form-control" autocomplete="Last Name" aria-required="true" placeholder="Last Name" />
+                <label asp-for="Input.LastName">Last Name</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Firstame.Lastname@datavid.com" readonly/>
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
@@ -32,6 +40,28 @@
     </div>
 </div>
 
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var firstNameInput = document.getElementById("Input_FirstName");
+        var lastNameInput = document.getElementById("Input_LastName");
+        var emailInput = document.getElementById("Input_Email");
+        var domain = "datavid.com";
+
+        function updateEmail() {
+            var firstName = firstNameInput.value.trim();
+            var lastName = lastNameInput.value.trim();
+            if (firstName && lastName) {
+                emailInput.value = `${firstName}.${lastName}@@${domain}`;
+            } else {
+                emailInput.value = "";
+            }
+        }
+
+        firstNameInput.addEventListener("input", updateEmail);
+        lastNameInput.addEventListener("input", updateEmail);
+    });
+    </script>
 }

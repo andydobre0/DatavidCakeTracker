@@ -25,14 +25,7 @@ namespace DatavidCakeTracker.Models
         [Required(ErrorMessage = "City is required")]
         public required string City { get; set; }
 
-        public int Age {
-            get
-            {
-                var today = DateTime.Today;
-                var age = today.Year - BirthDate.Year;
-                return age;
-            }
-        }
+        public int Age { get; set; }
 
 
         //validtion for the age to be between the minimum of 18yo and a reasonable 80yo
@@ -45,8 +38,10 @@ namespace DatavidCakeTracker.Models
             {
                 if (value is DateOnly BirthDate)
                 {
-                    var age = DateTime.Today.Year - BirthDate.Year;
-                    if (age >= MinAge && age <= MaxAge)
+                    var ageYear = DateTime.Today.Year - BirthDate.Year;
+                    var ageMonth = DateTime.Today.Month >= BirthDate.Month;
+                    var ageDay = DateTime.Today.Day >= BirthDate.Day;
+                    if (ageYear >= MinAge && ageYear <= MaxAge && ageMonth && ageDay)
                         return ValidationResult.Success;
                 }
                 return new ValidationResult(ErrorMessage);

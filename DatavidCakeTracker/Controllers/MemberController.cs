@@ -35,11 +35,31 @@ namespace DatavidCakeTracker.Controllers
         {
             if(ModelState.IsValid)
             {
+                var today = DateTime.Now.Year;
+                var age = today - member.BirthDate.Year;
+                if(member.BirthDate > DateOnly.FromDateTime(DateTime.Now))
+                {
+                    age--;
+                }
+                member.Age = age;
                 _dbcontext.Add(member);
                 await _dbcontext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(member);
+        }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var member = await _dbcontext.Members.FindAsync(id);
+            if(member == null)
+            {
+                return NotFound();    
+            }
+            _dbcontext.Members.Remove(member);
+            await _dbcontext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
