@@ -38,11 +38,16 @@ namespace DatavidCakeTracker.Models
             {
                 if (value is DateOnly BirthDate)
                 {
-                    var ageYear = DateTime.Today.Year - BirthDate.Year;
-                    var ageMonth = DateTime.Today.Month >= BirthDate.Month;
-                    var ageDay = DateTime.Today.Day >= BirthDate.Day;
-                    if (ageYear >= MinAge && ageYear <= MaxAge && ageMonth && ageDay)
+                    var today = DateOnly.FromDateTime(DateTime.Today);
+                    var age = today.Year - BirthDate.Year;
+                    if (BirthDate.Month > today.Month || (BirthDate.Month == today.Month && BirthDate.Day > today.Day))
+                    {
+                        age--;
+                    }
+                    if (age >= MinAge && age <= MaxAge)
+                    {
                         return ValidationResult.Success;
+                    }
                 }
                 return new ValidationResult(ErrorMessage);
             }

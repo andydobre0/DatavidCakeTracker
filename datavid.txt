@@ -1,0 +1,24 @@
+first thought: since the app is developed for a multinational company, i imagine it as a web app
+
+key considerations
+- members must be at least 18yo
+- i think the user will only be able to register(datavid email required, feature to be implemented) but not add  members, only see them
+- optionally, a method for adding all existing members from a db in an automated manner could be later implemented
+- the admin will be able to delete a member from the app
+- users will be able to see and filter a list of members
+- role based authentication & authorization
+
+thought process
+- i am thinking about using c# with ASP.NET for building the api, having the advantage of using all of Microsoft's dev tools like azure(deploying app, db), sql server etc.
+
+- ASP.NET core MVC app: there will be a model "Member" and i will use entitity framework for db config
+
+- there will be one view: one, requiring admin permissions for the admin with a form for adding the members to the app, and the same one for the users, but restricting access to only viewing members, which means the admin will post data to a database table for member info, and the users shall still register with an email and password which will be a post request to another table for keeping track of users(IdentityUser)
+
+- users email domains should only be Firstname.Lastname@datavid.com
+
+- identity api from asp.net could be used to handle authentication and authorization, roles, session cookies etc. as it also provides user and roles table
+
+- notifying others about upcoming birthdays
+
+- having a free student plan, i would like to deploy the app and db on azure

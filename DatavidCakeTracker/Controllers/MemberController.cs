@@ -61,5 +61,13 @@ namespace DatavidCakeTracker.Controllers
             await _dbcontext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> SortByBirthdate()
+        {
+            var members = await _dbcontext.Members
+                .OrderBy(member => (member.BirthDate.DayOfYear - DateTime.Today.DayOfYear + 365)%365)
+                .ToListAsync();
+            return View("Index", members);
+        }
     }
 }
